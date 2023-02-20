@@ -13,7 +13,7 @@ class Cols:
         self.y = []
         for n, s in enumerate(t):
             if re.match('^[A-Z]+', s):
-                col = Num(the,n, s)
+                col = Num(the, n, s)
             else:
                 col = Sym(n, s)
             self.all.append(col)

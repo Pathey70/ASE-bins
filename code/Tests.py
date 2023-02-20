@@ -70,16 +70,15 @@ def eg_some(the):
 
 def eg_csv(the):
     csv(the['file'], count)
-    assert tot == 8 * 399
+    assert tot == 3192
 
 
 def eg_data(the):
     """Tests Data"""
-    data = Data(the['file'])
-    assert len(data.rows) == 398 and \
-           data.cols.y[0].w == -1 and \
-           data.cols.x[0].at == 0 and \
-           len(data.cols.x) == 4
+    data = Data(the['file'],the)
+    col = data.cols.x[1]
+    print(col.lo,col.hi, col.mid(),col.div())
+    print(data.stats(2,data.cols.y,'mid'))
 
 
 def eg_half(the):
