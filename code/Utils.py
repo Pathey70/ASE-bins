@@ -115,7 +115,8 @@ def diffs(nums1, nums2, the):
 
     return kap(nums1, func)
 
-def add(col, x, n=1, the):
+
+def add(col, x, the, n=1):
     if x != '?':
         col.n += n
         if type(col) == Sym:
@@ -128,9 +129,14 @@ def add(col, x, n=1, the):
             pos = 0
             if all < the.Max:
                 pos = all + 1
-            elif rand() < the.Max/col.n:
+            elif rand() < the.Max / col.n:
                 pos = rint(1, all)
             if pos:
                 col.has[pos] = x
                 col.ok = False
 
+
+def extend(rng, n, s, the):
+    rng.lo = min(rng.lo, n)
+    rng.hi = max(rng.hi, n)
+    add(rng.y, s, the=the)
