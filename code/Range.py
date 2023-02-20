@@ -2,7 +2,7 @@ from Sym import Sym
 
 
 class Range:
-    def __init__(self, at, txt, lo, hi):
+    def __init__(self, at, txt, lo, hi=None):
         self.at = at
         self.txt = txt
         self.lo = lo

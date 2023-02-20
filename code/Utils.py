@@ -140,3 +140,14 @@ def extend(rng, n, s, the):
     rng.lo = min(rng.lo, n)
     rng.hi = max(rng.hi, n)
     add(rng.y, s, the=the)
+
+
+def value(has, nB=1, nR=1, sGoal=True):
+    b = r = 0
+    for x, n in has.items():
+        if x == sGoal:
+            b += n
+        else:
+            r += n
+    b, r = b / (nB + 1 / math.inf), r / (nR + 1 / math.inf)
+    return b ** 2 / (b + r)
