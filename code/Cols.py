@@ -5,7 +5,7 @@ from Num import Num
 
 class Cols:
     """Factory for creating NUMs and SYMs"""
-    def __init__(self, t):
+    def __init__(self, the,t):
         self.names = t
         self.all = []
         self.klass = None
@@ -13,7 +13,7 @@ class Cols:
         self.y = []
         for n, s in enumerate(t):
             if re.match('^[A-Z]+', s):
-                col = Num(n, s)
+                col = Num(the,n, s)
             else:
                 col = Sym(n, s)
             self.all.append(col)

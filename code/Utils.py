@@ -67,6 +67,10 @@ def any(t, seed=937162211):
     random.seed(seed)
     return random.choices(t)[0]
 
+def per(t,p=0.5):
+    p=math.floor((p*len(t))+.5)
+    return t[max(1,min(len(t),p))]
+
 
 def show(node, what, cols, nPlaces, lvl=0):
     if node:

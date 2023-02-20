@@ -21,7 +21,7 @@ class Data:
     def add(self, t):
         """Adds rows and columns"""
         if not self.cols:
-            self.cols = Cols(t)
+            self.cols = Cols(the,t)
         else:
             if type(t) == list:
                 t = Row(t)

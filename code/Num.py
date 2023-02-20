@@ -1,29 +1,52 @@
 import math
-from Utils import rnd
+from Utils import rnd, rand, rint, per
 
 
 class Num:
     """Summarize stream of numbers"""
-    def __init__(self, at=0, txt=""):
+    def __init__(self, the={}, at=0, txt=""):
         self.at = at
         self.txt = txt
         self.n = self.mu = self.m2 = 0
         self.lo = math.inf
         self.hi = -math.inf
+        self.has = {}
+        self.ok = True
+        self.the = the
         self.w = -1 if '-' in self.txt else 1
 
-    def add(self, n):
-        if n != '?':
-            self.n += 1
-            d = n - self.mu
+    def add(self, x, n=1):
+        if x != '?':
+            # self.n += 1
+            
+            
+            self.n += n
+            self.lo = min(x, self.lo)
+            self.hi = max(x, self.hi)
+            d = x - self.mu
             self.mu += d/self.n     # Might have to replace with integer division
-            self.m2 += d * (n - self.mu)
-            self.lo = min(n, self.lo)
-            self.hi = max(n, self.hi)
+            self.m2 += d * (x - self.mu)
+            all = len(self.has)
+            t, _ = rand()
+            if self.the['Max'] > all:
+                pos = all+1
+            elif t < self.the['Max']/self.n:
+                pos = rint(1,all)
+            else:
+                pos = 0
+            if pos:
+                self.has[pos] = x
+                self.ok = False
+
+    def has_f(self):
+        temp = sorted(self.has.items(),key=lambda x:x[1])
+        temp = dict(temp)
+        self.ok = True
+        return list(temp.values())
 
     def mid(self):
         """Returns mean"""
-        return self.mu
+        return per(self.has_f(),0.5)
 
     def div(self):
         """Return standard deviation"""

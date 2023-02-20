@@ -25,8 +25,8 @@ def eg_syms(the):
 
 def eg_nums(the):
     """Tests Num"""
-    num1 = Num()
-    num2 = Num()
+    num1 = Num(the)
+    num2 = Num(the)
     Seed = the['seed']
     for i in range(1, 1001):
         x, Seed = rand(0, 1, Seed)
@@ -61,7 +61,12 @@ def eg_rand(the):
     for i in range(1, 1000):
         assert t[i] == u[i]
 
-
+def eg_some(the):
+    the['Max'] = 32
+    num1 = Num(the)
+    for i in range(1, 10001):
+        num1.add(i)
+    print(num1.has)
 
 def eg_csv(the):
     csv(the['file'], count)
