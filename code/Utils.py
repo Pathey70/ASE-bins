@@ -16,7 +16,7 @@ def rand(lo=0, hi=1, Seed=937162211):
 
 
 def rint(lo, hi):
-    x,seed = rand(lo, hi)
+    x, seed = rand(lo, hi)
     return math.floor(0.5 + x)
 
 
@@ -67,9 +67,10 @@ def any(t, seed=937162211):
     random.seed(seed)
     return random.choices(t)[0]
 
-def per(t,p=0.5):
-    p=math.floor((p*len(t))+.5)
-    return t[max(1,min(len(t),p))]
+
+def per(t, p=0.5):
+    p = math.floor((p * len(t)) + .5)
+    return t[max(1, min(len(t), p))]
 
 
 def show(node, what, cols, nPlaces, lvl=0):
@@ -83,32 +84,31 @@ def show(node, what, cols, nPlaces, lvl=0):
         show(None if "left" not in node else node["left"], what, cols, nPlaces, lvl + 1)
         show(None if "right" not in node else node["right"], what, cols, nPlaces, lvl + 1)
 
-def cliffs_delta(ns1,ns2,the,seed=937162211):
-    if len(ns1) > 256:
-        ns1 = many(ns1,256,seed)
-    if len(ns2) > 256:
-        ns2 = many(ns2,256,seed)
-    if len(ns1) > 10*len(ns2):
-        ns2 = many(ns1,10*len(ns2),seed)
-    if len(ns2) > 10*len(ns1):
-        ns2 = many(ns2,10*len(ns1),seed)
 
-    n,gt,lt = 0,0,0
+def cliffs_delta(ns1, ns2, the, seed=937162211):
+    if len(ns1) > 256:
+        ns1 = many(ns1, 256, seed)
+    if len(ns2) > 256:
+        ns2 = many(ns2, 256, seed)
+    if len(ns1) > 10 * len(ns2):
+        ns2 = many(ns1, 10 * len(ns2), seed)
+    if len(ns2) > 10 * len(ns1):
+        ns2 = many(ns2, 10 * len(ns1), seed)
+
+    n, gt, lt = 0, 0, 0
     for x in ns1:
         for y in ns2:
-            n=n+1
-            if x>y:
-                gt=gt+1
+            n = n + 1
+            if x > y:
+                gt = gt + 1
 
-            elif x<y:
-                lt=lt+1
-    return abs(lt - gt)/n > the['cliffs']
-
-def diffs(nums1,nums2,the):
-    def func(k,nums):
-        return cliffs_delta(nums.has,nums2[k].has,the),nums.txt
-    return kap(nums1,func)
+            elif x < y:
+                lt = lt + 1
+    return abs(lt - gt) / n > the['cliffs']
 
 
+def diffs(nums1, nums2, the):
+    def func(k, nums):
+        return cliffs_delta(nums.has, nums2[k].has, the), nums.txt
 
-
+    return kap(nums1, func)
