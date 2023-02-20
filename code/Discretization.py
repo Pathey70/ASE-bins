@@ -66,6 +66,6 @@ def bins(cols, rowss, the):
                 if k not in ranges:
                     ranges[k] = Range(col.at, col.txt, x)
                 extend(ranges[k], x, y)
-        ranges = sorted(list(map(itself, ranges)), key=lambda r: r.lo)
+        ranges = sorted(ranges, key=lambda r: ranges[r].lo)
         out[1 + len(out)] = ranges if type(col) == Sym else mergeAny(ranges)
     return out

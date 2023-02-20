@@ -3,6 +3,8 @@ from Main import coerce
 import os
 import random
 
+from Sym import Sym
+
 
 def rnd(n, nPlaces=2):
     mult = pow(10, nPlaces)
@@ -113,5 +115,22 @@ def diffs(nums1, nums2, the):
 
     return kap(nums1, func)
 
-def itself(x):
-    return x
+def add(col, x, n=1, the):
+    if x != '?':
+        col.n += n
+        if type(col) == Sym:
+            col.has[x] += n
+            if col.has[x] > col.most:
+                col.most, col.mode = col.has[x], x
+        else:
+            col.lo, col.hi = min(col.lo, x), max(col.hi, x)
+            all = len(col.has)
+            pos = 0
+            if all < the.Max:
+                pos = all + 1
+            elif rand() < the.Max/col.n:
+                pos = rint(1, all)
+            if pos:
+                col.has[pos] = x
+                col.ok = False
+
