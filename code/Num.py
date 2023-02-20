@@ -46,7 +46,7 @@ class Num:
 
     def mid(self):
         """Returns mean"""
-        return per(self.has_f(),0.5)
+        return self.mu
 
     def div(self):
         """Return standard deviation"""

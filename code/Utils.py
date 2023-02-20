@@ -4,7 +4,7 @@ import os
 import random
 
 
-def rnd(n, nPlaces=3):
+def rnd(n, nPlaces=2):
     mult = pow(10, nPlaces)
     return math.floor(n * mult + 0.5) / mult
 
@@ -32,7 +32,7 @@ def csv(src, fun):
             fun(temp)
 
 
-def map(src, fun):
+def mp(src, fun):
     for i in src:
         # print(i)
         fun(i)
@@ -82,3 +82,33 @@ def show(node, what, cols, nPlaces, lvl=0):
             print("")
         show(None if "left" not in node else node["left"], what, cols, nPlaces, lvl + 1)
         show(None if "right" not in node else node["right"], what, cols, nPlaces, lvl + 1)
+
+def cliffs_delta(ns1,ns2,the,seed=937162211):
+    if len(ns1) > 256:
+        ns1 = many(ns1,256,seed)
+    if len(ns2) > 256:
+        ns2 = many(ns2,256,seed)
+    if len(ns1) > 10*len(ns2):
+        ns2 = many(ns1,10*len(ns2),seed)
+    if len(ns2) > 10*len(ns1):
+        ns2 = many(ns2,10*len(ns1),seed)
+
+    n,gt,lt = 0,0,0
+    for x in ns1:
+        for y in ns2:
+            n=n+1
+            if x>y:
+                gt=gt+1
+
+            elif x<y:
+                lt=lt+1
+    return abs(lt - gt)/n > the['cliffs']
+
+def diffs(nums1,nums2,the):
+    def func(k,nums):
+        return cliffs_delta(nums.has,nums2[k].has,the),nums.txt
+    return kap(nums1,func)
+
+
+
+

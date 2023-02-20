@@ -1,6 +1,6 @@
 from Utils import csv, kap
 from Utils import cosine, many, any
-from Utils import map as mp
+from Utils import mp as mp
 from Row import Row
 from Cols import Cols
 import math
@@ -31,7 +31,7 @@ class Data:
 
     def clone(self, t={}):
         """Creates clone"""
-        data = Data([self.cols.names])
+        data = Data([self.cols.names],self.the)
         mp(t, data.add)
         return data
 
@@ -76,12 +76,15 @@ class Data:
         return sorted(list(map(fun, rows)), key=lambda x: x['dist'])
 
     def half(self, rows=None, cols=None, above=None):
+        def gap(r1,r2):
+            return self.dist(r1,r2,cols)
         if not rows:
             rows = self.rows
 
-        some = many(rows, self.the["Sample"], self.the['seed'])
-        A = above
-        if not above:
+        some = many(rows, self.the["Halves"], self.the['seed'])
+        if self.the['Reuse']:
+            A = above
+        if not above or not self.the['Reuse']:
             A = any(some, self.the['seed'])
         B = self.around(A, some)[int(self.the["Far"] * len(rows)) // 1]["row"]
 
@@ -103,33 +106,45 @@ class Data:
                 right.append(tmp["row"])
         return left, right, A, B, mid, c
 
-    def sway(self, rows=None, min=None, cols=None, above=0):
+    def sway(self, cols=None):
+        # if not rows:
+        #     rows = self.rows
+        # if not min:
+        #     min = len(rows) ** self.the["min"]
+        # if not cols:
+        #     cols = self.cols.x
+        # node = {"data": self.clone(rows)}
+        # if len(rows) > 2 * min:
+        #     left, right, node["A"], node["B"], node["mid"], _ = self.half(rows, cols, above)
+        #     if self.better(node["B"], node["A"]):
+        #         left, right, node["A"], node["B"] = right, left, node["B"], node["A"]
+        #     node["left"] = self.sway(left, min, cols, node["A"])
+        # return node
+        def worker(rows,worse,above=None):
+            if len(rows) <= len(self.rows)**self.the["min"]:
+                return rows,many(worse,self.the['rest']*len(rows))
+            l,r,A,B,m,c = self.half(rows,cols,above)
+            if self.better(B,A):
+                l,r,A,B = r,l,B,A
+            for x in r:
+                worse.append(x)
+            return worker(l,worse,A)
+        best,rest = worker(self.rows,[])
+        return self.clone(best),self.clone(rest)
+
+
+    def tree(self, rows=None, min=None, cols=None, above=None):
         if not rows:
             rows = self.rows
         if not min:
             min = len(rows) ** self.the["min"]
         if not cols:
             cols = self.cols.x
-        node = {"data": self.clone(rows)}
-        if len(rows) > 2 * min:
-            left, right, node["A"], node["B"], node["mid"], _ = self.half(rows, cols, above)
-            if self.better(node["B"], node["A"]):
-                left, right, node["A"], node["B"] = right, left, node["B"], node["A"]
-            node["left"] = self.sway(left, min, cols, node["A"])
-        return node
-
-    def cluster(self, rows=None, min=None, cols=None, above=None):
-        if not rows:
-            rows = self.rows
-        if not min:
-            min = len(rows) ** self.the["min"]
-        if not cols:
-            cols = self.cols.x
 
         node = {"data": self.clone(rows)}
         if len(rows) > 2 * min:
             left, right, node["A"], node["B"], node["mid"], _ = self.half(rows, cols, above)
-            node['left'] = self.cluster(left, min, cols, node['A'])
-            node['right'] = self.cluster(right, min, cols, node['B'])
+            node['left'] = self.tree(left, min, cols, node['A'])
+            node['right'] = self.tree(right, min, cols, node['B'])
 
         return node

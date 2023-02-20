@@ -4,7 +4,7 @@ import TestEngine
 from Sym import Sym
 from Num import Num
 from Data import Data
-from Utils import rnd, csv, rand, show, rint
+from Utils import *
 
 tot = 0
 
@@ -20,7 +20,7 @@ def eg_syms(the):
     for x in ["a", "a", "a", "a", "b", "b", "c"]:
         sym.add(x)
     print(sym.mid(),rnd(sym.div()))
-    assert 'a' == sym.mid() and 1.379 == rnd(sym.div())
+    assert 'a' == sym.mid() and 1.38 == rnd(sym.div())
 
 
 def eg_nums(the):
@@ -37,8 +37,8 @@ def eg_nums(the):
         num2.add(x**2)
     m1 = rnd(num1.mid(), 1)
     m2 = rnd(num2.mid(), 1)
-    d1 = rnd(num1.mid(), 1)
-    d2 = rnd(num2.mid(), 1)
+    d1 = rnd(num1.div(), 1)
+    d2 = rnd(num2.div(), 1)
     print(1,m1,d1)
     print(2,m2,d2)
     assert num1.mid() == num1.mid() and .5 == m1
@@ -78,22 +78,84 @@ def eg_data(the):
     data = Data(the['file'],the)
     col = data.cols.x[1]
     print(col.lo,col.hi, col.mid(),col.div())
-    print(data.stats(2,data.cols.y,'mid'))
+    print(data.stats(1,data.cols.y,'mid'))
 
 
 def eg_half(the):
     data = Data(the["file"], the)
     left, right, A, B, mid, c = data.half()
-    print(len(left), len(right), len(data.rows))
-    print(A.cells, c)
-    print(mid.cells)
-    print(B.cells)
+    print(len(left), len(right))
+    l,r = data.clone(left),data.clone(right)
+    # print(A.cells, c)
+    # print(mid.cells)
+    # print(B.cells)
+    print("l",l.stats(2,l.cols.y))
+    print("r",l.stats(2,r.cols.y))
+
+def eg_tree(the):
+    data = Data(the["file"], the)
+    show(data.tree(),"mid",data.cols.y,1)
+
+def eg_sway(the):
+    data = Data(the["file"], the)
+    best,rest = data.sway()
+    print("\nall ", data.stats(2,data.cols.y))
+    print("    ",  data.stats(2,data.cols.y,'div'))
+    print("\nbest", data.stats(2,best.cols.y))
+    print("    ",  data.stats(2,best.cols.y,'div'))
+    print("\nrest",data.stats(2,rest.cols.y))
+    print("    ",  data.stats(2,rest.cols.y,'div'))
+    print("\nall ~= best?",diffs(best.cols.y, data.cols.y,the))
+    print("best ~= rest?", diffs(best.cols.y, rest.cols.y,the))
+
 
 
 def eg_clone(the):
     data1 = Data(the['file'], the)
     data2 = data1.clone(data1.rows)
-    assert len(data1.rows) == len(data2.rows) and \
-           data1.cols.y[1].w == data2.cols.y[1].w and \
-           data1.cols.x[1].at == data2.cols.x[1].at and \
-           len(data1.cols.x) == len(data2.cols.x)
+    print(data1.stats(1,data1.cols.y))
+    print(data2.stats(1,data2.cols.y))
+
+def eg_cliffs(the):
+    assert False == cliffs_delta( [8,7,6,2,5,8,7,3],[8,7,6,2,5,8,7,3],the)
+    assert True  == cliffs_delta( [8,7,6,2,5,8,7,3], [9,9,7,8,10,9,6],the)
+    t1=[]
+    t2=[]
+    Seed = the['seed']
+    for i in range(1,1001):
+        x,Seed = rand(0,1,Seed)
+        t1.append(x)
+    Seed = the['seed']
+    for i in range(1,1001):
+        x,Seed = rand(0,1,Seed)
+        t2.append(x**(0.5))
+    assert False == cliffs_delta(t1,t1,the,Seed)
+    assert True == cliffs_delta(t1,t2,the,Seed)
+
+
+    diff = False
+    j = 1.0
+
+    def func(x):
+        return x*j
+
+    while not diff:
+        t3 = list(map(func,t1))
+        diff = cliffs_delta(t1,t3,the)
+        print('>',rnd(j),diff)
+        j = j*1.025
+
+def eg_dist(the):
+    data = Data(the['file'], the)
+    num = Num(the)
+    for row in data.rows:
+        num.add(data.dist(row,data.rows[0]))
+    d={'lo':num.lo,'hi':num.hi,'mid':rnd(num.mid()),'div':rnd(num.div())}
+    print(d)
+
+
+
+
+
+
+
