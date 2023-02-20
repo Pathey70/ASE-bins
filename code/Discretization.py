@@ -1,6 +1,8 @@
 import math
 from copy import deepcopy
 from Sym import Sym
+from Range import Range
+from Utils import itself
 
 
 def merge(col1, col2):
@@ -33,7 +35,7 @@ def mergeAny(ranges0):
     j = 0
     ranges1 = []
     while j < len(ranges0):
-        left, right = ranges0[j], ranges0[j+1]
+        left, right = ranges0[j], ranges0[j + 1]
         if right:
             y = merge2(left.y, right.y)
             if y:
@@ -43,3 +45,27 @@ def mergeAny(ranges0):
         j += 1
 
     return noGaps(ranges0) if len(ranges0) == len(ranges1) else mergeAny(ranges1)
+
+
+def bin(col, x, the):
+    if x == '?' or type(col) == Sym:
+        return x
+    tmp = (col.hi - col.lo) / (the.bins - 1)
+    return 1 if col.hi == col.lo else math.floor(x / tmp + 0.5) * tmp
+
+
+def bins(cols, rowss, the):
+    out = {}
+    for col in cols:
+        ranges = {}
+        for y, rows in enumerate(rowss):
+            for row in rows:
+                x, k = row[col.at]
+            if x != '?':
+                k = bin(col, x, the)
+                if k not in ranges:
+                    ranges[k] = Range(col.at, col.txt, x)
+                extend(ranges[k], x, y)
+        ranges = sorted(list(map(itself, ranges)), key=lambda r: r.lo)
+        out[1 + len(out)] = ranges if type(col) == Sym else mergeAny(ranges)
+    return out

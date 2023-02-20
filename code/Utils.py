@@ -112,3 +112,6 @@ def diffs(nums1, nums2, the):
         return cliffs_delta(nums.has, nums2[k].has, the), nums.txt
 
     return kap(nums1, func)
+
+def itself(x):
+    return x
