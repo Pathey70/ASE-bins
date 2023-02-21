@@ -1,3 +1,6 @@
+
+[![DOI](https://zenodo.org/badge/602657037.svg)](https://zenodo.org/badge/latestdoi/602657037)
+
 # ASE-bins
 
 # HW 5 Bins
