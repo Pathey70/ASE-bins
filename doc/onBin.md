@@ -1,3 +1,50 @@
+# HW 5 Bins
+
+
+### Document file for HW5 Main.py file
+
+
+
+- To view all command line options run 
+    ```python3 Main.py --help True ```
+
+- To Run test cases 
+    ```python3 Main.py --go <test-name>```
+
+
+    e.g.
+    
+    ```python3 Main.py --go tree```
+
+
+    ```python3 Main.py --go sway```
+
+
+```
+Here are the list of options
+
+OPTIONS:
+  -b  --bins    initial number of bins       = 16
+  -c  --cliffs  cliff's delta threshold      = .147
+  -f  --file    data file                    = ../etc/data/auto93.csv
+  -F  --Far     distance to distant          = .95
+  -g  --go      start-up action              = nothing
+  -h  --help    show help                    = False
+  -H  --Halves  search space for clustering  = 512
+  -m  --min     size of smallest cluster     = .5
+  -M  --Max     numbers                      = 512
+  -p  --p       dist coefficient             = 2
+  -r  --rest    how many of rest to sample   = 4
+  -R  --Reuse   child splits reuse a parent pole = True
+  -s  --seed    random number seed           = 937162211
+ 
+To run
+
+python3 Main.py --go tree
+
+```
+## Output
+```
 > 1.0 False
 > 1.02 False
 > 1.05 False
