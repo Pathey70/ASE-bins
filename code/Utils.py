@@ -116,30 +116,10 @@ def diffs(nums1, nums2, the):
     return kap(nums1, func)
 
 
-def add(col, x, the, n=1):
-    if x != '?':
-        col.n += n
-        if type(col) == Sym:
-            col.has[x] += n
-            if col.has[x] > col.most:
-                col.most, col.mode = col.has[x], x
-        else:
-            col.lo, col.hi = min(col.lo, x), max(col.hi, x)
-            all = len(col.has)
-            pos = 0
-            if all < the.Max:
-                pos = all + 1
-            elif rand() < the.Max / col.n:
-                pos = rint(1, all)
-            if pos:
-                col.has[pos] = x
-                col.ok = False
-
-
 def extend(rng, n, s, the):
     rng.lo = min(rng.lo, n)
     rng.hi = max(rng.hi, n)
-    add(rng.y, s, the=the)
+    rng.y.add(s)
 
 
 def value(has, nB=1, nR=1, sGoal=True):
