@@ -12,10 +12,10 @@ class Sym:
         self.most = 0
         self.mode = None
 
-    def add(self, x):
+    def add(self, x,n=1):
         if x != '?':
-            self.n += 1
-            self.has[x] += 1
+            self.n += n
+            self.has[x] += n
             if self.has[x] > self.most:
                 self.most, self.mode = self.has[x], x
 

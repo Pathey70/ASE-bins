@@ -20,7 +20,7 @@ class Num:
             # self.n += 1
             
             
-            self.n += n
+            self.n += 1
             self.lo = min(x, self.lo)
             self.hi = max(x, self.hi)
             d = x - self.mu

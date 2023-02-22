@@ -1,5 +1,8 @@
 # ASE-bins
 
+[![Unit tests](https://github.com/Pathey70/ASE-bins/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/Pathey70/ASE-bins/actions/workflows/unit-tests.yml)
+[![DOI](https://zenodo.org/badge/602657037.svg)](https://zenodo.org/badge/latestdoi/602657037)
+
 # HW 5 Bins
 
 

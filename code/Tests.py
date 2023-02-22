@@ -160,9 +160,16 @@ def eg_dist(the):
 
 
 def eg_bins(the):
+    b4=""
     data = Data(the['file'], the)
     best, rest = data.sway()
     print("all\t\t\tbest:{}, rest:{}".format(len(best.rows), len(rest.rows)))
-    for k, t in bins(data.cols.x, {"best": best.rows, "rest": rest.rows}, the).items():
+    for k, t in enumerate(bins(data.cols.x, {"best": best.rows, "rest": rest.rows}, the)):
         for rng in t:
-            print(rng.txt, rng.lo, rng.hi, rnd(value(rng.y.has, len(best.rows), len(rest.rows), "best")), rng.y.has)
+            if rng.txt != b4:
+                print("")
+            b4=rng.txt
+            print(rng.txt, rng.lo, rng.hi, rnd(value(rng.y.has, len(best.rows), len(rest.rows), "best")), dict(rng.y.has))
+
+
+

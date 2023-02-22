@@ -1,5 +1,5 @@
 from Sym import Sym
-
+from Num import Num
 
 class Range:
     def __init__(self, at, txt, lo, hi=None):
