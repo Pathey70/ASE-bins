@@ -55,6 +55,27 @@ python3 Main.py --go tree
 ```
 ## Output
 ```
+all			best:14, rest:56
+
+Clndrs -inf 4 0.72 {'best': 14, 'rest': 22}
+Clndrs 4 inf 0.0 {'rest': 34}
+
+Volume -inf 90 0.42 {'best': 7, 'rest': 5}
+Volume 90 116 0.19 {'best': 4, 'rest': 8}
+Volume 116 141 0.15 {'best': 3, 'rest': 5}
+Volume 141 inf 0.0 {'rest': 38}
+
+Model -inf 71 0.0 {'rest': 4}
+Model 71 73 0.02 {'best': 1, 'rest': 11}
+Model 73 74 0.4 {'best': 6, 'rest': 2}
+Model 74 75 0.34 {'best': 6, 'rest': 6}
+Model 75 77 0.02 {'best': 1, 'rest': 13}
+Model 77 inf 0.0 {'rest': 20}
+
+origin 1 1 0.0 {'rest': 39}
+origin 2 2 0.85 {'best': 14, 'rest': 10}
+origin 3 3 0.0 {'rest': 7}
+✅PASS : eg_bins
 > 1.0 False
 > 1.02 False
 > 1.05 False
